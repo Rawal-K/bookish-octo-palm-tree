@@ -1,0 +1,25 @@
+{
+  "name": "caching",
+  "version": "1.0.0",
+  "description": "Caching with Redis app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index"	
+  },
+  "keywords": [
+    "Redis",
+    "Node",
+    "Express",
+    "Starwars"
+  ],
+  "author": "Kamal Rawal",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "redis": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
