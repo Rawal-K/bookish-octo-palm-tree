@@ -4,8 +4,9 @@ const bodyParser = require("body-parser");
 const port_redis = process.env.PORT || 6379;
 const redis_client = redis.createClient(port_redis);
 const { checkCache, clearCache } = require('../helpers/redisCacheHelper.js');
-
-
+const ResponseObject = require('../helpers/responseObjectClass');
+const responseObject = new ResponseObject();
+const AppError = require('../helpers/appError');
 
 
 exports.findOne = async (req, res) => {
@@ -23,10 +24,15 @@ exports.findOne = async (req, res) => {
                         redis_client.setex(id, 3600, JSON.stringify(responseData));
                         response = responseData;
                 }
-                return res.json(response);
+		let returnObj = responseObject.create({
+			code: 200,
+			success: true,
+			data: response,
+			message: 'Pokemon has been fetched successfully'
+		});
+                return res.send(returnObj);
         }catch (error) {
-                console.log(error);
-                return res.status(500).json(error);
+		return next(new AppError(error.message, 500));
         }
 };
 
@@ -42,10 +48,15 @@ exports.update = async (req, res) => {
                 response.weight = "updated Weight";
                 response.abilities = "updated Abilities";
                 await clearCache(id);
-                return res.json(response);
+		const returnObj = responseObject.create({
+			code: 200,
+			success: true,
+			data: response,
+			message: 'Pokemon has been updated successfully'
+		});
+                return res.json(returnObj);
         }catch(error){
-                console.log(error);
-                return res.status(500).json(error);
+		return next(new AppError(err.message, 500));
         }
 };
 

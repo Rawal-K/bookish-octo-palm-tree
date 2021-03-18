@@ -2,8 +2,6 @@ const redis = require("redis");
 const port_redis = process.env.PORT || 6379;
 const redis_client = redis.createClient(port_redis);
 
-
-
 checkCache = (id) => {
         return new Promise((resolve, reject) => {
                 redis_client.get(id, (err, data) => {
@@ -26,7 +24,6 @@ clearCache = (id) => {
                 });
         });
 }
-
 
 module.exports = {
 	checkCache,
